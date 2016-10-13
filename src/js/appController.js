@@ -10,26 +10,30 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojrouter', 'ojs/ojarraytabledatasource',
   function(oj, ko) {
     function ControllerViewModel() {
       var self = this;
-
+      var menuDashboard = oj.Translations.getTranslatedString("menu.dashboard");
+      var menuLectures = oj.Translations.getTranslatedString("menu.lectures");
+      var menuSignup = oj.Translations.getTranslatedString("menu.signup");
+      var menuProfile = oj.Translations.getTranslatedString("menu.profile");
+      
       // Router setup
       self.router = oj.Router.rootInstance;
       self.router.configure({
-       'dashboard': {label: 'Dashboard', isDefault: true},
-       'lectures': {label: 'lectures'},
-       'signup': {label: 'Signup'},
-       'profile': {label: 'Profile'}
+       'dashboard': {label: menuDashboard, isDefault: true},
+       'lectures': {label: menuLectures},
+       'signup': {label: menuSignup},
+       'profile': {label: menuProfile}
       });
       oj.Router.defaults['urlAdapter'] = new oj.Router.urlParamAdapter();
 
       // Navigation setup
       var navData = [
-      {name: 'Dashboard', id: 'dashboard',
+      {name: menuDashboard, id: 'dashboard',
         iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-chart-icon-24'},
-      {name: 'Lectures', id: 'lectures',
+      {name: menuLectures, id: 'lectures',
         iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-fire-icon-24'},
-      {name: 'Signup', id: 'signup',
+      {name: menuSignup, id: 'signup',
         iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-people-icon-24'},
-      {name: 'Profile', id: 'profile',
+      {name: menuProfile, id: 'profile',
         iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-person-icon-24'}
       ];
       self.navDataSource = new oj.ArrayTableDataSource(navData, {idAttribute: 'id'});
