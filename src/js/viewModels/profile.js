@@ -5,14 +5,63 @@
 /*
  * Your profile ViewModel code goes here
  */
-define(['ojs/ojcore', 'knockout', 'jquery'],
- function(oj, ko, $) {
+define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojknockout', 'ojs/ojinputtext',
+    'ojs/ojbutton'],
+ function(oj, ko, $, app) {
   
     function ProfileViewModel() {
       var self = this;
       // Below are a subset of the ViewModel methods invoked by the ojModule binding
       // Please reference the ojModule jsDoc for additionaly available methods.
 
+      self.nickname = ko.observable("");
+      self.loginname = ko.observable("");
+      self.password = ko.observable("");
+      self.prefs = plugins.appPreferences;
+      
+      function fetchFailure(error){
+          console.error("fetch error: " + error);
+      }
+      
+      function storeSuccess(data){
+          console.log("stored successfully: " + data);
+      }
+      
+      function storeFailure(error){
+          console.error("store error: " + error);
+      }
+      
+      self.prefs.fetch(function(value){
+          console.log("nickname: " + value);
+          self.nickname(value);
+      }, fetchFailure, 'profile', 'nickname');
+      
+      self.prefs.fetch(function(value){
+          console.log("loginname: " + value);
+          self.loginname(value);
+      }, fetchFailure, 'profile', 'loginname');
+      
+      self.prefs.fetch(function(value){
+          console.log("password: " + value);
+          self.password(value);
+      }, fetchFailure, 'profile', 'password');
+
+      self.savePreferences = function(data, event) {
+          console.log("savePreferences: ");
+          console.log("nickname: " + self.nickname());
+          console.log("loginname: " + self.loginname());
+          console.log("password: " + self.password());
+          
+          self.prefs.store(storeSuccess, storeFailure, 'profile', 'nickname', self.nickname());
+          self.prefs.store(storeSuccess, storeFailure, 'profile', 'loginname', self.loginname());
+          self.prefs.store(storeSuccess, storeFailure, 'profile', 'password', self.password());
+          
+          //이름을 넘겨주는 부분을 만들어야함
+          app.avatarUsername(self.nickname());
+          
+          
+          return true;
+      }
       /**
        * Optional ViewModel method invoked when this ViewModel is about to be
        * used for the View transition.  The application can put data fetch logic

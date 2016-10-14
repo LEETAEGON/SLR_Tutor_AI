@@ -15,6 +15,16 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojrouter', 'ojs/ojarraytabledatasource',
       var menuSignup = oj.Translations.getTranslatedString("menu.signup");
       var menuProfile = oj.Translations.getTranslatedString("menu.profile");
       
+      
+      self.avatarUsername = ko.observable("");
+      //self.userName = app.avatarUsername;
+      plugins.appPreferences.fetch(
+              function(value){
+                  self.avatarUsername(value)
+              }, function() {}, 'profile', 'nickname');
+          
+     
+      
       // Router setup
       self.router = oj.Router.rootInstance;
       self.router.configure({

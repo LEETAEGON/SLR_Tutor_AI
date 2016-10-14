@@ -66,7 +66,7 @@ require(['ojs/ojcore', 'knockout', 'appController', 'ojs/ojknockout',
       self.toggleDrawer = app.toggleDrawer;
 
       // Sample user data
-      self.userName = ko.observable("James");
+      self.userName = app.avatarUsername;
     }
 
     $(function() {
